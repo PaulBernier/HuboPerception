@@ -7,9 +7,9 @@
 #include <osgViewer/Viewer>
 #include <osg/ShapeDrawable>
 
-#include "urgcppwrapper.h"
-#include "urgtoosg.h"
-#include "laserscanlinenode.h"
+#include "URG2OSG/urgcppwrapper.h"
+#include "URG2OSG/urgtoosg.h"
+#include "URG2OSG/laserscanlinenode.h"
 
 using namespace std;
 

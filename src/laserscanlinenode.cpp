@@ -1,4 +1,4 @@
-#include "laserscanlinenode.h"
+#include "URG2OSG/laserscanlinenode.h"
 
 LaserScanLineNode::LaserScanLineNode(URGCPPWrapper &urg) : laser_scan_line(urg)
 {

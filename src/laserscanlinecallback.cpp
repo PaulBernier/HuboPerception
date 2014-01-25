@@ -1,5 +1,5 @@
-#include "laserscanlinecallback.h"
-#include "laserscanlinenode.h"
+#include "URG2OSG/laserscanlinecallback.h"
+#include "URG2OSG/laserscanlinenode.h"
 
 void LaserScanLineCallback::operator()(osg::Node* node, osg::NodeVisitor* nv)
 {

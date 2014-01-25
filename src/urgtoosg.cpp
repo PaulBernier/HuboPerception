@@ -1,4 +1,4 @@
-#include "urgtoosg.h"
+#include "URG2OSG/urgtoosg.h"
 
 void UrgToOsg::getOsgPoints(const URGCPPWrapper& urg, osg::ref_ptr<osg::Vec3Array> vertices, osg::ref_ptr<osg::Vec4Array> colors)
 {

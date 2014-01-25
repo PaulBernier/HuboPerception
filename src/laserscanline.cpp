@@ -1,5 +1,5 @@
-#include "laserscanline.h"
-#include "urgtoosg.h"
+#include "URG2OSG/laserscanline.h"
+#include "URG2OSG/urgtoosg.h"
 
 LaserScanLine::LaserScanLine(URGCPPWrapper &urg) : urg(urg)
 {

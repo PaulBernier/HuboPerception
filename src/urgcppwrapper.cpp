@@ -1,4 +1,4 @@
-#include "urgcppwrapper.h"
+#include "URG2OSG/urgcppwrapper.h"
 
 URGCPPWrapper::URGCPPWrapper(const std::string &ip, const int ip_port)
     : distance(0), intensity(0),

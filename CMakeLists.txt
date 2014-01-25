@@ -1,6 +1,8 @@
 project(urg_wrapper)
 cmake_minimum_required(VERSION 2.8)
-aux_source_directory(. SRC_LIST)
+
+file(GLOB_RECURSE SRC_LIST src/* URG2OSG/* main.cpp)
+include_directories(.)
 
 list(APPEND CMAKE_CXX_FLAGS "-std=c++0x -Wall -Wextra")
 
