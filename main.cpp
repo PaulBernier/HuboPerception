@@ -13,7 +13,7 @@
 
 using namespace std;
 
-void URG_routine(URGCPPWrapper* urg);
+void URG_subroutine(URGCPPWrapper* urg, osgViewer::Viewer* viewer);
 
 int main()
 {
@@ -29,12 +29,14 @@ int main()
     root->addChild(laser_scan_line_node);
 
     // Cube at origin
-    osg::ref_ptr<osg::Box> unitCube = new osg::Box( osg::Vec3(0,0,0), 150.0f);
+    osg::ref_ptr<osg::Box> unitCube = new osg::Box(osg::Vec3(0,0,0), 150.0f);
     osg::ref_ptr<osg::ShapeDrawable> unitCubeDrawable = new osg::ShapeDrawable(unitCube);
     originGeode->addDrawable(unitCubeDrawable);
 
-    thread urg_thread(URG_routine, &urg);
+    // Thread getting data from the laser
+    thread urg_thread(URG_subroutine, &urg, &viewer);
 
+    // Set viewer
     viewer.setSceneData(root);
     viewer.setUpViewInWindow(50, 50, 800, 600);
     viewer.run();
@@ -44,7 +46,7 @@ int main()
     return 0;
 }
 
-void URG_routine(URGCPPWrapper* urg)
+void URG_subroutine(URGCPPWrapper* urg, osgViewer::Viewer* viewer)
 {
     try
     {
@@ -54,7 +56,7 @@ void URG_routine(URGCPPWrapper* urg)
 
         urg->start();
 
-        while(1)
+        while(!viewer->done())
         {
             urg->grabScanWithIntensity();
         }
