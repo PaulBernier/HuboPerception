@@ -43,8 +43,8 @@ private:
     long time_stamp;
 
     // Connection info
-    int ip_port;
     std::string ip;
+    int ip_port;
     int serial_baudrate;
     std::string serial_port;
 

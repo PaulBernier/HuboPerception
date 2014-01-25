@@ -3,11 +3,12 @@
 
 #include <osg/Node>
 #include "laserscanline.h"
+#include "laserscanlinecallback.h"
 
 class LaserScanLineNode : public osg::Node
 {
 public:
-    LaserScanLineNode();
+    LaserScanLineNode(URGCPPWrapper &urg);
     void update();
 
 protected:

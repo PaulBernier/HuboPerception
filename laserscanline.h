@@ -2,16 +2,16 @@
 #define LASERSCANLINE_H
 
 #include <osg/Geometry>
+#include "urgcppwrapper.h"
 
 class LaserScanLine : public osg::Geometry
 {
 public:
-    LaserScanLine();
+    LaserScanLine(URGCPPWrapper &urg);
     void updateVertices();
 
 protected:
-
-    void init();
+    URGCPPWrapper& urg;
 
     osg::ref_ptr<osg::Vec3Array> vertices;
     osg::ref_ptr<osg::Vec4Array> color;

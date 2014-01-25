@@ -1,7 +1,8 @@
 #include "laserscanlinenode.h"
 
-LaserScanLineNode::LaserScanLineNode()
+LaserScanLineNode::LaserScanLineNode(URGCPPWrapper &urg) : laser_scan_line(urg)
 {
+    setUpdateCallback(new LaserScanLineCallback);
 }
 
 void LaserScanLineNode::update()

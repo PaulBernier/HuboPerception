@@ -9,8 +9,9 @@ class UrgToOsg
 {
 public:
 
-    static void to2DGeometry(const URGCPPWrapper& urg, osg::ref_ptr<osg::Geometry> geometry);
-    static osg::Vec3 to2DSpace(const long distance, const double angle_rad);
+    static void getOsgPoints(const URGCPPWrapper& urg, osg::ref_ptr<osg::Vec3Array> vertices, osg::ref_ptr<osg::Vec4Array> colors);
+    static osg::Vec3 polarToCartesian(const long distance, const double angle_rad);
+
 private:
     UrgToOsg();
 };

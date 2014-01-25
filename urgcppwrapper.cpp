@@ -1,9 +1,10 @@
 #include "urgcppwrapper.h"
 
 URGCPPWrapper::URGCPPWrapper(const std::string &ip, const int ip_port)
-    : ip(ip), ip_port(ip_port), serial_port(""), serial_baudrate(0),
-      started(false), use_intensity(true), use_multi_echo(false),
-      distance(0), intensity(0)
+    : distance(0), intensity(0),
+      ip(ip), ip_port(ip_port), serial_baudrate(0), serial_port(""),
+      started(false), use_intensity(true), use_multi_echo(false)
+
 {
     if (!urg.open(ip.c_str(), ip_port, qrk::Urg_driver::Ethernet))
     {
@@ -19,9 +20,10 @@ URGCPPWrapper::URGCPPWrapper(const std::string &ip, const int ip_port)
 }
 
 URGCPPWrapper::URGCPPWrapper(const int serial_baudrate, const std::string& serial_port)
-    : serial_baudrate(serial_baudrate), serial_port(serial_port), ip(""), ip_port(0),
-      started(false), use_intensity(true), use_multi_echo(false),
-      distance(0), intensity(0)
+    : distance(0), intensity(0),
+      ip(""), ip_port(0), serial_baudrate(serial_baudrate), serial_port(serial_port),
+      started(false), use_intensity(true), use_multi_echo(false)
+
 {
     if (!urg.open(ip.c_str(), ip_port, qrk::Urg_driver::Ethernet))
     {
@@ -106,8 +108,13 @@ void URGCPPWrapper::grabScanEchoWithIntensity()
 
 void URGCPPWrapper::sync()
 {
-    urg.set_sensor_time_stamp(qrk::ticks());
+    if(urg.set_sensor_time_stamp(qrk::ticks())) {
+        std::stringstream ss;
+        ss << "Urg_driver::set_sensor_time_stamp(): " << urg.what() << std::endl;
+        throw std::runtime_error(ss.str());
+    }
 }
+
 
 void URGCPPWrapper::setMeasurementType(bool use_intensity, bool use_multi_echo)
 {

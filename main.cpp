@@ -9,32 +9,31 @@
 
 #include "urgcppwrapper.h"
 #include "urgtoosg.h"
-#include "laserscanline.h"
+#include "laserscanlinenode.h"
 
 using namespace std;
 
-void URG_routine(osg::ref_ptr<osg::Geode> geode, osg::ref_ptr<osg::Geometry> geometry);
+void URG_routine(URGCPPWrapper* urg);
 
 int main()
 {
+    URGCPPWrapper urg("192.168.0.10", 10940);
 
     osgViewer::Viewer viewer;
 
     osg::ref_ptr<osg::Group> root = new osg::Group;
-    osg::ref_ptr<osg::Geode> geode = new osg::Geode;
+    osg::ref_ptr<LaserScanLineNode> laser_scan_line_node = new LaserScanLineNode(urg);
     osg::ref_ptr<osg::Geode> originGeode = new osg::Geode;
-    osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry;
 
-    geode->addDrawable(geometry);
     root->addChild(originGeode);
-    root->addChild(geode);
+    root->addChild(laser_scan_line_node);
 
     // Cube at origin
     osg::ref_ptr<osg::Box> unitCube = new osg::Box( osg::Vec3(0,0,0), 150.0f);
     osg::ref_ptr<osg::ShapeDrawable> unitCubeDrawable = new osg::ShapeDrawable(unitCube);
     originGeode->addDrawable(unitCubeDrawable);
 
-    thread urg_thread(URG_routine, geode, geometry);
+    thread urg_thread(URG_routine, &urg);
 
     viewer.setSceneData(root);
     viewer.setUpViewInWindow(50, 50, 800, 600);
@@ -45,27 +44,23 @@ int main()
     return 0;
 }
 
-void URG_routine(osg::ref_ptr<osg::Geode> geode, osg::ref_ptr<osg::Geometry> geometry)
+void URG_routine(URGCPPWrapper* urg)
 {
     try
     {
-        URGCPPWrapper urg("192.168.0.10", 10940);
-        urg.sync();
+        urg->sync();
 
-        cout << urg.getAllInfo();
+        cout << urg->getAllInfo();
 
-        urg.start();
+        urg->start();
 
         while(1)
         {
-            urg.grabScanWithIntensity();
-            geode->removeDrawable(geometry);
-            UrgToOsg::to2DGeometry(urg, geometry);
-            geode->addDrawable(geometry);
-            std::this_thread::sleep_for(chrono::milliseconds(100));
+            urg->grabScanWithIntensity();
         }
 
-        urg.stop();
+        urg->stop();
+
     }catch(const std::runtime_error& e){
         cout << e.what() << endl;
     }
