@@ -1,4 +1,4 @@
-project(urg_wrapper)
+project(URG2OSG)
 cmake_minimum_required(VERSION 2.8)
 
 file(GLOB_RECURSE SRC_LIST src/* URG2OSG/* main.cpp)
