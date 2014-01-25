@@ -9,6 +9,7 @@
 
 #include "urgcppwrapper.h"
 #include "urgtoosg.h"
+#include "laserscanline.h"
 
 using namespace std;
 
