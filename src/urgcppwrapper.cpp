@@ -6,7 +6,7 @@ URGCPPWrapper::URGCPPWrapper(const std::string &ip, const int ip_port)
       started(false), use_intensity(true), use_multi_echo(false)
 
 {
-    if (!urg.open(ip.c_str(), ip_port, qrk::Urg_driver::Ethernet))
+    if (!urg.open(ip.c_str(), ip_port, qrk::Lidar::Ethernet))
     {
         // Error
         std::stringstream ss;
@@ -25,7 +25,7 @@ URGCPPWrapper::URGCPPWrapper(const int serial_baudrate, const std::string& seria
       started(false), use_intensity(true), use_multi_echo(false)
 
 {
-    if (!urg.open(ip.c_str(), ip_port, qrk::Urg_driver::Ethernet))
+    if (!urg.open(serial_port.c_str(), serial_baudrate, qrk::Lidar::Serial))
     {
         // Error
         std::stringstream ss;
