@@ -52,7 +52,7 @@
 class UrgToOsg
 {
 public:
-
+    static const unsigned short EPSILON = 3;
     static void getOsgPoints(const URGCPPWrapper& urg, osg::ref_ptr<osg::Vec3Array> vertices);
     static osg::Vec3 polarToCartesian(const long distance, const double angle_rad);
 

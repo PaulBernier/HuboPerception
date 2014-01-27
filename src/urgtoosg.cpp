@@ -47,13 +47,18 @@
 void UrgToOsg::getOsgPoints(const URGCPPWrapper& urg, osg::ref_ptr<osg::Vec3Array> vertices)
 {
     const unsigned long int numberOfPoints = urg.getNumberOfPoints();
+    const long maxDistance = urg.getMaxDistance() - EPSILON;
     const std::vector<long>& distance = urg.getDistance();
 
     vertices->resize(numberOfPoints);
 
     for(unsigned int i=0 ; i<numberOfPoints ; ++i)
     {
-        (*vertices)[i] = polarToCartesian(distance[i], urg.index2rad(i));
+        // Remove extreme points
+        if(distance[i] > maxDistance)
+            (*vertices)[i] = osg::Vec3(0, 0, 0);
+        else
+            (*vertices)[i] = polarToCartesian(distance[i], urg.index2rad(i));
     }
 }
 
