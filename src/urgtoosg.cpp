@@ -1,6 +1,6 @@
 #include "URG2OSG/urgtoosg.h"
 
-void UrgToOsg::getOsgPoints(const URGCPPWrapper& urg, osg::ref_ptr<osg::Vec3Array> vertices, osg::ref_ptr<osg::Vec4Array> colors)
+void UrgToOsg::getOsgPoints(const URGCPPWrapper& urg, osg::ref_ptr<osg::Vec3Array> vertices)
 {
     const unsigned long int numberOfPoints = urg.getNumberOfPoints();
     const std::vector<long>& distance = urg.getDistance();
@@ -10,16 +10,6 @@ void UrgToOsg::getOsgPoints(const URGCPPWrapper& urg, osg::ref_ptr<osg::Vec3Arra
     for(unsigned int i=0 ; i<numberOfPoints ; ++i)
     {
         (*vertices)[i] = polarToCartesian(distance[i], urg.index2rad(i));
-    }
-
-    if(urg.useIntensity())
-    {
-        const std::vector<unsigned short>& intensity = urg.getIntensity();
-
-        for(unsigned int i=0 ; i<numberOfPoints ; ++i)
-        {
-            (*colors)[i] = osg::Vec4f(1, 0, 0, 1);
-        }
     }
 }
 

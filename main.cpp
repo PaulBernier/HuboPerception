@@ -58,7 +58,7 @@ void URG_subroutine(URGCPPWrapper* urg, osgViewer::Viewer* viewer)
 
         while(!viewer->done())
         {
-            urg->grabScanWithIntensity();
+            urg->grabScan();
         }
 
         urg->stop();

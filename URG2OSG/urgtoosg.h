@@ -9,7 +9,7 @@ class UrgToOsg
 {
 public:
 
-    static void getOsgPoints(const URGCPPWrapper& urg, osg::ref_ptr<osg::Vec3Array> vertices, osg::ref_ptr<osg::Vec4Array> colors);
+    static void getOsgPoints(const URGCPPWrapper& urg, osg::ref_ptr<osg::Vec3Array> vertices);
     static osg::Vec3 polarToCartesian(const long distance, const double angle_rad);
 
 private:
