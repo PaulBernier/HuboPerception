@@ -254,6 +254,16 @@ unsigned long int URGCPPWrapper::getNumberOfPoints() const
     return urg.max_data_size();
 }
 
+long URGCPPWrapper::getMinDistance() const
+{
+    return urg.min_distance();
+}
+
+long URGCPPWrapper::getMaxDistance() const
+{
+    return urg.max_distance();
+}
+
 double URGCPPWrapper::index2rad(int index) const
 {
     return urg.index2rad(index);

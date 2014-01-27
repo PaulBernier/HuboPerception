@@ -76,6 +76,8 @@ public:
     bool useIntensity() const;
     bool useMultiEcho() const;
     unsigned long int getNumberOfPoints() const;
+    long getMinDistance() const;
+    long getMaxDistance() const;
 
     // Utility
     double index2rad(int index) const;

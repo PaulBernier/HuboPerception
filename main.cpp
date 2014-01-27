@@ -54,6 +54,7 @@
 #include "URG2OSG/urgcppwrapper.h"
 #include "URG2OSG/urgtoosg.h"
 #include "URG2OSG/laserscanlinenode.h"
+#include "URG2OSG/circle.h"
 
 using namespace std;
 
@@ -91,7 +92,7 @@ void setUpODGNodes(osg::ref_ptr<osg::Group> root, URGCPPWrapper& urg)
     root->addChild(laser_scan_line_node);
 
     // Sphere at origin
-    osg::ref_ptr<osg::Sphere> unitSphere = new osg::Sphere(osg::Vec3(0,0,0), 50.0f);
+    osg::ref_ptr<osg::Sphere> unitSphere = new osg::Sphere(osg::Vec3(0,0,0), 10.0f);
     osg::ref_ptr<osg::ShapeDrawable> unitSphereDrawable = new osg::ShapeDrawable(unitSphere);
     landmarkGeode->addDrawable(unitSphereDrawable);
 
@@ -99,6 +100,14 @@ void setUpODGNodes(osg::ref_ptr<osg::Group> root, URGCPPWrapper& urg)
     osg::ref_ptr<osg::Box> stick = new osg::Box(osg::Vec3(500,0,0), 1000.0f, 10.0f, 10.0f);
     osg::ref_ptr<osg::ShapeDrawable> stickDrawable = new osg::ShapeDrawable(stick);
     landmarkGeode->addDrawable(stickDrawable);
+
+    // Min distance circle
+    osg::ref_ptr<Circle> minDistanceCircle = new Circle(urg.getMinDistance());
+    landmarkGeode->addDrawable(minDistanceCircle);
+
+    // Max distance circle
+    osg::ref_ptr<Circle> maxDistanceCircle = new Circle(urg.getMaxDistance());
+    landmarkGeode->addDrawable(maxDistanceCircle);
 }
 
 void URG_subroutine(URGCPPWrapper* urg, osgViewer::Viewer* viewer)
