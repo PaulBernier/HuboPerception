@@ -58,7 +58,7 @@
 
 using namespace std;
 
-void setUpODGNodes(osg::ref_ptr<osg::Group> root, URGCPPWrapper &urg);
+void setUpOSGNodes(osg::ref_ptr<osg::Group> root, URGCPPWrapper &urg);
 void URG_subroutine(URGCPPWrapper* urg, osgViewer::Viewer* viewer);
 
 int main()
@@ -68,7 +68,7 @@ int main()
     osgViewer::Viewer viewer;
 
     osg::ref_ptr<osg::Group> root = new osg::Group;
-    setUpODGNodes(root, urg);
+    setUpOSGNodes(root, urg);
 
     // Thread getting data from the laser
     thread urg_thread(URG_subroutine, &urg, &viewer);
@@ -83,7 +83,7 @@ int main()
     return 0;
 }
 
-void setUpODGNodes(osg::ref_ptr<osg::Group> root, URGCPPWrapper& urg)
+void setUpOSGNodes(osg::ref_ptr<osg::Group> root, URGCPPWrapper& urg)
 {
     osg::ref_ptr<osg::Geode> landmarkGeode = new osg::Geode;
     osg::ref_ptr<LaserScanLineNode> laser_scan_line_node = new LaserScanLineNode(urg);
