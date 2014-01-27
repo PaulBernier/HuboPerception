@@ -57,6 +57,7 @@
 
 using namespace std;
 
+void setUpODGNodes(osg::ref_ptr<osg::Group> root, URGCPPWrapper &urg);
 void URG_subroutine(URGCPPWrapper* urg, osgViewer::Viewer* viewer);
 
 int main()
@@ -66,16 +67,7 @@ int main()
     osgViewer::Viewer viewer;
 
     osg::ref_ptr<osg::Group> root = new osg::Group;
-    osg::ref_ptr<LaserScanLineNode> laser_scan_line_node = new LaserScanLineNode(urg);
-    osg::ref_ptr<osg::Geode> originGeode = new osg::Geode;
-
-    root->addChild(originGeode);
-    root->addChild(laser_scan_line_node);
-
-    // Cube at origin
-    osg::ref_ptr<osg::Box> unitCube = new osg::Box(osg::Vec3(0,0,0), 150.0f);
-    osg::ref_ptr<osg::ShapeDrawable> unitCubeDrawable = new osg::ShapeDrawable(unitCube);
-    originGeode->addDrawable(unitCubeDrawable);
+    setUpODGNodes(root, urg);
 
     // Thread getting data from the laser
     thread urg_thread(URG_subroutine, &urg, &viewer);
@@ -90,6 +82,25 @@ int main()
     return 0;
 }
 
+void setUpODGNodes(osg::ref_ptr<osg::Group> root, URGCPPWrapper& urg)
+{
+    osg::ref_ptr<osg::Geode> landmarkGeode = new osg::Geode;
+    osg::ref_ptr<LaserScanLineNode> laser_scan_line_node = new LaserScanLineNode(urg);
+
+    root->addChild(landmarkGeode);
+    root->addChild(laser_scan_line_node);
+
+    // Sphere at origin
+    osg::ref_ptr<osg::Sphere> unitSphere = new osg::Sphere(osg::Vec3(0,0,0), 50.0f);
+    osg::ref_ptr<osg::ShapeDrawable> unitSphereDrawable = new osg::ShapeDrawable(unitSphere);
+    landmarkGeode->addDrawable(unitSphereDrawable);
+
+    // 1 meter stick
+    osg::ref_ptr<osg::Box> stick = new osg::Box(osg::Vec3(500,0,0), 1000.0f, 10.0f, 10.0f);
+    osg::ref_ptr<osg::ShapeDrawable> stickDrawable = new osg::ShapeDrawable(stick);
+    landmarkGeode->addDrawable(stickDrawable);
+}
+
 void URG_subroutine(URGCPPWrapper* urg, osgViewer::Viewer* viewer)
 {
     try
@@ -98,6 +109,7 @@ void URG_subroutine(URGCPPWrapper* urg, osgViewer::Viewer* viewer)
 
         cout << urg->getAllInfo();
 
+        // Start measurement
         urg->start();
 
         while(!viewer->done())
@@ -105,6 +117,7 @@ void URG_subroutine(URGCPPWrapper* urg, osgViewer::Viewer* viewer)
             urg->grabScan();
         }
 
+        // Stop measurement
         urg->stop();
 
     }catch(const std::runtime_error& e){
