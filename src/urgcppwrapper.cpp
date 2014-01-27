@@ -152,7 +152,7 @@ void URGCPPWrapper::grabScanEchoWithIntensity()
 
 void URGCPPWrapper::sync()
 {
-    if(urg.set_sensor_time_stamp(qrk::ticks())) {
+    if(!urg.set_sensor_time_stamp(qrk::ticks())) {
         std::stringstream ss;
         ss << "Urg_driver::set_sensor_time_stamp(): " << urg.what() << std::endl;
         throw std::runtime_error(ss.str());
