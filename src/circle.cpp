@@ -46,10 +46,10 @@
 
 Circle::Circle(double radius, unsigned long number_of_points) :
     radius(radius), number_of_points(number_of_points),
-    vertices(new osg::Vec3Array(number_of_points)), color(new osg::Vec4Array(1))
+    vertices(new osg::Vec3Array(number_of_points + 1)), color(new osg::Vec4Array(1))
 {
     // Set vertices
-    for(unsigned long int i=0 ; i<number_of_points ; ++i)
+    for(unsigned long int i=0 ; i<number_of_points + 1 ; ++i)
     {
         const double angle = (i * 2 * 3.1415926) / number_of_points;
         const double x = radius * cos(angle);
@@ -61,7 +61,7 @@ Circle::Circle(double radius, unsigned long number_of_points) :
     setVertexArray(vertices);
 
     // Line strip primitive
-    addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINE_STRIP, 0, number_of_points));
+    addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINE_STRIP, 0, number_of_points + 1));
 
     // Color
     setColorBinding(osg::Geometry::BIND_OVERALL);

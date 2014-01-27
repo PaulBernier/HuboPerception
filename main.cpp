@@ -106,8 +106,8 @@ void setUpODGNodes(osg::ref_ptr<osg::Group> root, URGCPPWrapper& urg)
     landmarkGeode->addDrawable(minDistanceCircle);
 
     // Max distance circle
-    osg::ref_ptr<Circle> maxDistanceCircle = new Circle(urg.getMaxDistance());
-    landmarkGeode->addDrawable(maxDistanceCircle);
+//    osg::ref_ptr<Circle> maxDistanceCircle = new Circle(urg.getMaxDistance());
+//    landmarkGeode->addDrawable(maxDistanceCircle);
 }
 
 void URG_subroutine(URGCPPWrapper* urg, osgViewer::Viewer* viewer)
