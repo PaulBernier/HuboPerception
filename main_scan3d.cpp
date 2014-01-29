@@ -52,8 +52,6 @@
 #include <osg/ShapeDrawable>
 
 #include "URG2OSG/urgcppwrapper.h"
-#include "URG2OSG/urgtoosg.h"
-#include "URG2OSG/laserscanlinenode.h"
 #include "URG2OSG/circle.h"
 
 using namespace std;
@@ -86,10 +84,8 @@ int main()
 void setUpOSGNodes(osg::ref_ptr<osg::Group> root, URGCPPWrapper& urg)
 {
     osg::ref_ptr<osg::Geode> landmarkGeode = new osg::Geode;
-    osg::ref_ptr<LaserScanLineNode> laser_scan_line_node = new LaserScanLineNode(urg);
 
     root->addChild(landmarkGeode);
-    root->addChild(laser_scan_line_node);
 
     // Sphere at origin
     osg::ref_ptr<osg::Sphere> unitSphere = new osg::Sphere(osg::Vec3(0,0,0), 10.0f);
