@@ -60,6 +60,6 @@ LaserScanLine::LaserScanLine(URGCPPWrapper &urg)
 
 void LaserScanLine::updateVertices()
 {
-    UrgToOsg::getOsgPoints(urg, vertices);
+    UrgToOsg::getOsg2DPoints(&urg, vertices);
     setVertexArray(vertices);
 }

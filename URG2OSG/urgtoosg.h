@@ -53,8 +53,17 @@ class UrgToOsg
 {
 public:
     static const unsigned short EPSILON = 3;
-    static void getOsgPoints(const URGCPPWrapper& urg, osg::ref_ptr<osg::Vec3Array> vertices);
+
+    //2D
+    static void getOsg2DPoints(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array> vertices);
     static osg::Vec3 polarToCartesian(const long distance, const double angle_rad);
+
+    //3D
+    static void getOsg3DPointsts(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array> vertices,
+                                 const std::vector<long>& distances, const std::vector<double>& angles,
+                                 unsigned int number_of_points,
+                                 unsigned long number_of_points_per_scan);
+    static osg::Vec3 sphericalToCartesian(const long distance, const double theta, const double phi);
 
 private:
     UrgToOsg();

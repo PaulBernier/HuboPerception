@@ -44,21 +44,19 @@
 
 #include "URG2OSG/urgtoosg.h"
 
-void UrgToOsg::getOsgPoints(const URGCPPWrapper& urg, osg::ref_ptr<osg::Vec3Array> vertices)
+void UrgToOsg::getOsg2DPoints(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array> vertices)
 {
-    const unsigned long int numberOfPoints = urg.getNumberOfPoints();
-    const long maxDistance = urg.getMaxDistance() - EPSILON;
-    const std::vector<long>& distance = urg.getDistance();
+    const unsigned long int number_of_points = urg->getNumberOfPoints();
+    const long max_distance = urg->getMaxDistance() - EPSILON;
+    const std::vector<long>& distance = urg->getDistance();
 
-    vertices->resize(numberOfPoints);
+    vertices->reserve(number_of_points);
 
-    for(unsigned int i=0 ; i<numberOfPoints ; ++i)
+    for(unsigned int i=0 ; i<number_of_points ; ++i)
     {
         // Remove extreme points
-        if(distance[i] > maxDistance)
-            (*vertices)[i] = osg::Vec3(0, 0, 0);
-        else
-            (*vertices)[i] = polarToCartesian(distance[i], urg.index2rad(i));
+        if(distance[i] < max_distance)
+            (*vertices).push_back(polarToCartesian(distance[i], urg->index2rad(i)));
     }
 }
 
@@ -66,3 +64,33 @@ osg::Vec3 UrgToOsg::polarToCartesian(const long distance, const double angle_rad
 {
     return osg::Vec3(distance * cos(angle_rad), distance * sin(angle_rad), 0);
 }
+
+void UrgToOsg::getOsg3DPointsts(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array> vertices,
+                      const std::vector<long>& distances, const std::vector<double>& angles,
+                      unsigned int number_of_points,
+                      unsigned long number_of_points_per_scan)
+{
+    const long max_distance = urg->getMaxDistance() - EPSILON;
+    vertices->reserve(number_of_points);
+
+    for(unsigned int i=0 ; i< number_of_points ; ++i)
+    {
+        // Remove extreme points
+        if(distances[i] < max_distance)
+        {
+            const double phi = angles[i / number_of_points_per_scan];
+            const double theta = urg->index2rad(i % number_of_points_per_scan) - 3.1415926 / 2;
+
+            vertices->push_back(sphericalToCartesian(distances[i], theta, phi));
+        }
+    }
+}
+
+osg::Vec3 UrgToOsg::sphericalToCartesian(const long distance, const double theta, const double phi)
+{
+    return osg::Vec3(distance * cos(phi) * sin(theta),
+                     distance * cos(theta),
+                     distance * sin(phi) * sin(theta));
+}
+
+
