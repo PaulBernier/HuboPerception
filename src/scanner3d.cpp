@@ -20,16 +20,13 @@ void Scanner3d::scan()
 
     for(unsigned int i=0 ; i<number_of_scans ; ++i)
     {
+
         dxl->moveToDegree(start_angle_degree - i * scan_step_degree, 3);
-        // Wait
-        while(dxl->isMoving(3)){}
 
         angles[i] = dxl->getCurrentAngleRadian(3);
         //Launch scan
         urg->grabScan();
         // Add scan result to distance vector
-        // TODO use of forward list ?
-        //TODO grabScan copie direct ?
         distances.insert(distances.begin() + i * number_of_points_per_scan, urg->getDistance().begin(), urg->getDistance().end());
     }
 
@@ -87,4 +84,7 @@ void Scanner3d::moveHeadToInitialPosition()
     while(dxl->isMoving(1)){}
     while(dxl->isMoving(2)){}
     while(dxl->isMoving(3)){}
+
+    std::cout << "Hum: " << dxl->getCurrentPosition(3) << " / "<< start_angle_degree << std::endl;
+    std::cout << "Hum: " << dxl->getCurrentAngleDegree(3) << " / "<< start_angle_degree << std::endl;
 }

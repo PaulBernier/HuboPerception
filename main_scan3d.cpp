@@ -127,18 +127,20 @@ void setUpOSGNodes(osg::ref_ptr<osg::Group> root, URGCPPWrapper& urg)
 void URG_subroutine(URGCPPWrapper* urg, osg::ref_ptr<osg::Group> root)
 {
 
-    boost::timer::cpu_timer timer;
-
     const int start_angle_degree = 220;
     const int end_angle_degree = 110;
-    const double scan_step_degree = 0.5;
+    const double scan_step_degree = 1;
 
     Dxl dxl;
 
+    boost::timer::cpu_timer timer;
     try
     {
         Scanner3d scanner(urg, &dxl, start_angle_degree, end_angle_degree, scan_step_degree);
         scanner.scan();
+
+        boost::timer::cpu_times time = timer.elapsed();
+        cout << "Total time scan:" << boost::timer::format(time, 3) << endl;
 
         osg::ref_ptr<osg::Geode> geode = new osg::Geode;
         scanner.getScan3dGeode(geode);
@@ -149,92 +151,7 @@ void URG_subroutine(URGCPPWrapper* urg, osg::ref_ptr<osg::Group> root)
         cout << e.what() << endl;
     }
 
-    boost::timer::cpu_times time = timer.elapsed();
-    cout << boost::timer::format(time, 3) << endl;
-
-//    const unsigned int number_of_scans = abs(start_angle_degree - end_angle_degree) / scan_step_degree;
-//    const unsigned long number_of_points_per_scan = urg->getNumberOfPoints();
-//    const unsigned int number_of_points = number_of_scans * number_of_points_per_scan;
-//    const long maxDistance = urg->getMaxDistance() - 3;
 
 
-
-//    dxl.moveToDegree(180, 1);
-//    dxl.moveToDegree(180, 2);
-//    dxl.moveToDegree(start_angle_degree, 3);
-
-//    // Wait end of move
-//    while(dxl.isMoving(1)){}
-//    while(dxl.isMoving(2)){}
-//    while(dxl.isMoving(3)){}
-
-//    vector<long> distances(number_of_points);
-//    vector<double> angles(number_of_scans);
-
-//    try
-//    {
-//        urg->sync();
-
-//        cout << urg->getAllInfo();
-
-//        // Start measurement
-//        urg->start(false);
-
-//        for(unsigned int i=0 ; i<number_of_scans ; ++i)
-//        {
-//            dxl.moveToDegree(start_angle_degree - i * scan_step_degree, 3);
-//            // Wait
-//            while(dxl.isMoving(3)){}
-//            angles[i] = dxl.getCurrentAngleRadian(3);
-//            //Launch scan
-//            urg->grabScan();
-//            // Add scan result to distance vector
-//            distances.insert(distances.begin() + i * number_of_points_per_scan, urg->getDistance().begin(), urg->getDistance().end());
-//        }
-
-//        // Stop measurement
-//        urg->stop();
-
-//        // Conversion
-
-//        osg::ref_ptr<osg::Vec3Array> pointsArray(new osg::Vec3Array());
-//        pointsArray->reserve(number_of_points);
-
-//        for(unsigned int i=0 ; i< number_of_points ; ++i)
-//        {
-//            // Remove
-//            if(distances[i] < maxDistance)
-//            {
-//                const double phi = angles[i / number_of_points_per_scan];
-//                const double theta = urg->index2rad(i % number_of_points_per_scan) - 3.1415926 / 2;
-
-//                pointsArray->push_back(osg::Vec3(distances[i] * cos(phi) * sin(theta),
-//                                              distances[i] * cos(theta),
-//                                              distances[i] * sin(phi) * sin(theta)));
-//            }
-//        }
-
-//        // OpenSceneGraph
-
-//        osg::ref_ptr<osg::Geode> geode = new osg::Geode;
-//        osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry;
-
-//        geometry->setVertexArray(pointsArray);
-//        geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POINTS, 0, pointsArray->size()));
-//        geometry->getOrCreateStateSet()->setAttribute(new osg::Point(1), osg::StateAttribute::ON);
-
-//        // Color
-//        osg::ref_ptr<osg::Vec4Array> color(new osg::Vec4Array(1));
-//        geometry->setColorBinding(osg::Geometry::BIND_OVERALL);
-//        (*color)[0] = osg::Vec4(1.0f, 0.0f, 0.0f, 1.0f);
-//        geometry->setColorArray(color);
-
-//        geode->addDrawable(geometry);
-//        root->addChild(geode);
-
-
-//    }catch(const std::runtime_error& e){
-//        cout << e.what() << endl;
-//    }
 }
 

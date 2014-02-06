@@ -12,14 +12,18 @@ public:
     // RAM address
     static const unsigned char GOAL_POSITION_L = 30;
     static const unsigned char GOAL_POSITION_H = 31;
+
+    static const unsigned char MOVING_SPEED_L = 32;
+    static const unsigned char MOVING_SPEED_H = 33;
+
     static const unsigned char PRESENT_POSITION_L = 36;
     static const unsigned char PRESENT_POSITION_H = 37;
     static const unsigned char MOVING = 46;
 
     // Constants
-    constexpr static const double DEFAULT_ID = 1;
-    constexpr static const double POSITION_TO_DEGREE = 0.088;
-    constexpr static const double POSITION_TO_RADIAN = 0.001535889742;
+    constexpr static double DEFAULT_ID = 1;
+    constexpr static double POSITION_TO_DEGREE = 0.088;
+    constexpr static double POSITION_TO_RADIAN = 0.001535889742;
 
     Dxl(unsigned int device_index = 0, unsigned int baudrate = 1);
     ~Dxl();
@@ -34,7 +38,7 @@ public:
     double getCurrentAngleDegree(unsigned int device_id = DEFAULT_ID) const;
     double getCurrentAngleRadian(unsigned int device_id = DEFAULT_ID) const;
     int getCurrentPosition(unsigned int device_id = DEFAULT_ID) const;
-
+    int getMovingSpeed(unsigned int device_id = DEFAULT_ID) const;
 
 private:
     unsigned int device_index;//device index is x in /dev/ttyUSBx

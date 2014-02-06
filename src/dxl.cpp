@@ -80,7 +80,19 @@ int Dxl::getCurrentPosition(unsigned int device_id) const
         return position;
     }
 
-    return false;
+    return -1;
+}
+
+int Dxl::getMovingSpeed(unsigned int device_id) const
+{
+    const int speed = dxl_read_word(device_id, MOVING_SPEED_L);
+
+    if(commRXIsOk())
+    {
+        return speed;
+    }
+
+    return -1;
 }
 
 /*******************

@@ -56,7 +56,7 @@ void UrgToOsg::getOsg2DPoints(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array> v
     {
         // Remove extreme points
         if(distance[i] < max_distance)
-            (*vertices).push_back(polarToCartesian(distance[i], urg->index2rad(i)));
+            vertices->push_back(polarToCartesian(distance[i], urg->index2rad(i)));
     }
 }
 
