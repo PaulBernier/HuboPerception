@@ -8,6 +8,7 @@ typedef struct{
     std::vector<double> angles;
 
     unsigned int number_of_joints;
+    unsigned int number_of_scans;
     unsigned int number_of_points;
     unsigned long number_of_points_per_scan;
 

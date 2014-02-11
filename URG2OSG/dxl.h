@@ -33,8 +33,10 @@ public:
     void moveToDegree(double degree, unsigned int device_id = DEFAULT_ID);
     void moveToRadian(double radian, unsigned int device_id = DEFAULT_ID);
 
+    void setSpeed(int speed, unsigned int device_id = DEFAULT_ID);
+
     // Get
-    bool isMoving(unsigned int device_id = DEFAULT_ID) const;
+    int isMoving(unsigned int device_id = DEFAULT_ID) const;
     double getCurrentAngleDegree(unsigned int device_id = DEFAULT_ID) const;
     double getCurrentAngleRadian(unsigned int device_id = DEFAULT_ID) const;
     int getCurrentPosition(unsigned int device_id = DEFAULT_ID) const;

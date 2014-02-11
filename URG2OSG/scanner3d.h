@@ -5,6 +5,7 @@
 #include "URG2OSG/urgcppwrapper.h"
 #include <osg/Geode>
 #include <vector>
+#include "URG2OSG/scanresultstruct.h"
 
 class Scanner3d
 {
@@ -20,17 +21,12 @@ private:
     URGCPPWrapper* urg;
     Dxl* dxl;
 
-    std::vector<long> distances;
-    std::vector<double> angles;
+    RawScan3dResult raw_scan3d_result;
 
     // Params
     int start_angle_degree;
     int end_angle_degree;
     double scan_step_degree;
-
-    unsigned int number_of_scans;
-    unsigned long number_of_points_per_scan;
-    unsigned int number_of_points;
 
     void updateScanParam();
     void moveHeadToInitialPosition();

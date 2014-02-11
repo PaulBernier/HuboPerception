@@ -68,6 +68,8 @@ int main()
 {
     URGCPPWrapper urg("192.168.0.10", 10940);
 
+    cout << urg.getAllInfo() << endl;
+
     osgViewer::Viewer viewer;
 
     osg::ref_ptr<osg::Group> root = new osg::Group;
@@ -129,18 +131,14 @@ void URG_subroutine(URGCPPWrapper* urg, osg::ref_ptr<osg::Group> root)
 
     const int start_angle_degree = 220;
     const int end_angle_degree = 110;
-    const double scan_step_degree = 1;
+    const double scan_step_degree = 0.5;
 
     Dxl dxl;
 
-    boost::timer::cpu_timer timer;
     try
     {
         Scanner3d scanner(urg, &dxl, start_angle_degree, end_angle_degree, scan_step_degree);
         scanner.scan();
-
-        boost::timer::cpu_times time = timer.elapsed();
-        cout << "Total time scan:" << boost::timer::format(time, 3) << endl;
 
         osg::ref_ptr<osg::Geode> geode = new osg::Geode;
         scanner.getScan3dGeode(geode);
@@ -150,8 +148,6 @@ void URG_subroutine(URGCPPWrapper* urg, osg::ref_ptr<osg::Group> root)
     {
         cout << e.what() << endl;
     }
-
-
 
 }
 

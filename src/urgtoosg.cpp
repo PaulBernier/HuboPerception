@@ -65,23 +65,23 @@ osg::Vec3 UrgToOsg::polarToCartesian(const long distance, const double angle_rad
     return osg::Vec3(distance * cos(angle_rad), distance * sin(angle_rad), 0);
 }
 
-void UrgToOsg::getOsg3DPointsts(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array> vertices,
-                      const std::vector<long>& distances, const std::vector<double>& angles,
-                      unsigned int number_of_points,
-                      unsigned long number_of_points_per_scan)
+void UrgToOsg::getOsg3DPointsts(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array> vertices, const RawScan3dResult &raw_scan3d_result)
 {
+    const unsigned int nb_pts = raw_scan3d_result.number_of_points;
+    const unsigned int nb_joints = raw_scan3d_result.number_of_joints;
     const long max_distance = urg->getMaxDistance() - EPSILON;
-    vertices->reserve(number_of_points);
 
-    for(unsigned int i=0 ; i< number_of_points ; ++i)
+    vertices->reserve(nb_pts);
+
+    for(unsigned int i=0 ; i< nb_pts ; ++i)
     {
         // Remove extreme points
-        if(distances[i] < max_distance)
+        if(raw_scan3d_result.distances[i] < max_distance)
         {
-            const double phi = angles[i / number_of_points_per_scan];
-            const double theta = urg->index2rad(i % number_of_points_per_scan) - 3.1415926 / 2;
+            const double phi = raw_scan3d_result.angles[nb_joints * (i / raw_scan3d_result.number_of_points_per_scan) - 1];
+            const double theta = urg->index2rad(i % raw_scan3d_result.number_of_points_per_scan) - 3.1415926 / 2;
 
-            vertices->push_back(sphericalToCartesian(distances[i], theta, phi));
+            vertices->push_back(sphericalToCartesian(raw_scan3d_result.distances[i], theta, phi));
         }
     }
 }

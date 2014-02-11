@@ -18,16 +18,21 @@ void Scanner3d::scan()
     // Start measurement
     urg->start(false);
 
-    for(unsigned int i=0 ; i<number_of_scans ; ++i)
+    raw_scan3d_result.distances.clear();
+
+    for(unsigned int i=0 ; i<raw_scan3d_result.number_of_scans ; ++i)
     {
 
         dxl->moveToDegree(start_angle_degree - i * scan_step_degree, 3);
 
-        angles[i] = dxl->getCurrentAngleRadian(3);
+        raw_scan3d_result.angles[3 * i] = dxl->getCurrentAngleRadian(1);
+        raw_scan3d_result.angles[3 * i + 1] = dxl->getCurrentAngleRadian(2);
+        raw_scan3d_result.angles[3 * i + 2] = dxl->getCurrentAngleRadian(3);
+
         //Launch scan
         urg->grabScan();
         // Add scan result to distance vector
-        distances.insert(distances.begin() + i * number_of_points_per_scan, urg->getDistance().begin(), urg->getDistance().end());
+        raw_scan3d_result.distances.insert(raw_scan3d_result.distances.end(), urg->getDistance().begin(), urg->getDistance().end());
     }
 
     // Stop measurement
@@ -38,7 +43,7 @@ void Scanner3d::scan()
 void Scanner3d::getScan3dGeode(osg::ref_ptr<osg::Geode> geode)
 {
     osg::ref_ptr<osg::Vec3Array> vertices(new osg::Vec3Array());
-    UrgToOsg::getOsg3DPointsts(urg, vertices, distances, angles, number_of_points, number_of_points_per_scan);
+    UrgToOsg::getOsg3DPointsts(urg, vertices, raw_scan3d_result);
 
     osg::ref_ptr<osg::Geometry> geometry(new osg::Geometry);
     geometry->setVertexArray(vertices);
@@ -65,12 +70,15 @@ void Scanner3d::setScanParameters(int start_angle_degree, int end_angle_degree, 
 
 void Scanner3d::updateScanParam()
 {
-    number_of_scans = abs(start_angle_degree - end_angle_degree) / scan_step_degree;
-    number_of_points_per_scan = urg->getNumberOfPoints();
-    number_of_points = number_of_scans * number_of_points_per_scan;
+    // Hubo's head has 3 dx motors
+    raw_scan3d_result.number_of_joints = 3;
 
-    distances.resize(number_of_points);
-    angles.resize(number_of_scans);
+    raw_scan3d_result.number_of_scans = abs(start_angle_degree - end_angle_degree) / scan_step_degree;
+    raw_scan3d_result.number_of_points_per_scan = urg->getNumberOfPoints();
+    raw_scan3d_result.number_of_points = raw_scan3d_result.number_of_scans * raw_scan3d_result.number_of_points_per_scan;
+
+    raw_scan3d_result.distances.reserve(raw_scan3d_result.number_of_points);
+    raw_scan3d_result.angles.resize(raw_scan3d_result.number_of_scans * raw_scan3d_result.number_of_joints);
 }
 
 void Scanner3d::moveHeadToInitialPosition()
@@ -81,10 +89,8 @@ void Scanner3d::moveHeadToInitialPosition()
     dxl->moveToDegree(start_angle_degree, 3);
 
     // Wait end of move
-    while(dxl->isMoving(1)){}
-    while(dxl->isMoving(2)){}
-    while(dxl->isMoving(3)){}
+    while(dxl->isMoving(1)){asm("nop");}
+    while(dxl->isMoving(2)){asm("nop");}
+    while(dxl->isMoving(3)){asm("nop");}
 
-    std::cout << "Hum: " << dxl->getCurrentPosition(3) << " / "<< start_angle_degree << std::endl;
-    std::cout << "Hum: " << dxl->getCurrentAngleDegree(3) << " / "<< start_angle_degree << std::endl;
 }

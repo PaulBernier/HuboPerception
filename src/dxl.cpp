@@ -30,7 +30,6 @@ Dxl::~Dxl()
 void Dxl::moveToPosition(int position, unsigned int device_id)
 {
     dxl_write_word(device_id, GOAL_POSITION_L, position);
-    commRXIsOk();
 }
 
 void Dxl::moveToDegree(double degree, unsigned int device_id)
@@ -43,13 +42,18 @@ void Dxl::moveToRadian(double radian, unsigned int device_id)
     moveToPosition(radian / POSITION_TO_RADIAN, device_id);
 }
 
+void Dxl::setSpeed(int speed, unsigned int device_id)
+{
+    dxl_write_word(device_id, MOVING_SPEED_L, speed);
+}
+
 /*******************
  *
  * Get
  *
  *******************/
 
-bool Dxl::isMoving(unsigned int device_id) const
+int Dxl::isMoving(unsigned int device_id) const
 {
     int moving = dxl_read_byte(device_id, MOVING);
 
