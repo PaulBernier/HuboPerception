@@ -6,6 +6,8 @@
 #include <osg/Geode>
 #include <vector>
 #include "URG2OSG/scanresultstruct.h"
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
 
 class Scanner3d
 {
@@ -14,6 +16,9 @@ public:
               int start_angle_degree = 220, int end_angle_degree = 110, double scan_step_degree = 1);
     void scan();
     void getScan3dGeode(osg::ref_ptr<osg::Geode> geode);
+
+    void getPointCloud(pcl::PointCloud<pcl::PointXYZRGB> &cloud);
+    void savePointCloudToPCD(const std::string& filename);
 
     void setScanParameters(int start_angle_degree, int end_angle_degree, double scan_step_degree);
 

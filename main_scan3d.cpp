@@ -54,6 +54,8 @@
 #include "URG2OSG/urgcppwrapper.h"
 #include "URG2OSG/circle.h"
 
+#include <pcl/io/pcd_io.h>
+
 #include "URG2OSG/dxl.h"
 #include <osg/Point>
 #include "URG2OSG/scanner3d.h"
@@ -140,6 +142,10 @@ void URG_subroutine(URGCPPWrapper* urg, osg::ref_ptr<osg::Group> root)
         Scanner3d scanner(urg, &dxl, start_angle_degree, end_angle_degree, scan_step_degree);
         scanner.scan();
 
+        // Save point cloud
+        scanner.savePointCloudToPCD("hubo.pcd");
+
+        // Display point cloud
         osg::ref_ptr<osg::Geode> geode = new osg::Geode;
         scanner.getScan3dGeode(geode);
         root->addChild(geode);

@@ -1,6 +1,9 @@
 #include "URG2OSG/scanner3d.h"
 #include "URG2OSG/urgtoosg.h"
 #include <osg/Point>
+#include <pcl/io/pcd_io.h>
+#include <pcl/point_types.h>
+#include "URG2OSG/urgtopcl.h"
 
 Scanner3d::Scanner3d(URGCPPWrapper* urg, Dxl* dxl,
                      int start_angle_degree, int end_angle_degree, double scan_step_degree)
@@ -57,6 +60,20 @@ void Scanner3d::getScan3dGeode(osg::ref_ptr<osg::Geode> geode)
     geometry->setColorArray(color);
 
     geode->addDrawable(geometry);
+}
+
+void Scanner3d::savePointCloudToPCD(const std::string& filename)
+{
+    pcl::PointCloud<pcl::PointXYZRGB> cloud;
+    UrgToPcl::getPCLCloud(urg, cloud, raw_scan3d_result);
+
+    // Save file
+    pcl::io::savePCDFileASCII(filename, cloud);
+}
+
+void Scanner3d::getPointCloud(pcl::PointCloud<pcl::PointXYZRGB> &cloud)
+{
+    UrgToPcl::getPCLCloud(urg, cloud, raw_scan3d_result);
 }
 
 void Scanner3d::setScanParameters(int start_angle_degree, int end_angle_degree, double scan_step_degree)
