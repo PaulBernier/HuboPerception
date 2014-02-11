@@ -51,6 +51,7 @@ void UrgToOsg::getOsg2DPoints(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array> v
     const std::vector<long>& distance = urg->getDistance();
 
     vertices->reserve(number_of_points);
+    vertices->clear();
 
     for(unsigned int i=0 ; i<number_of_points ; ++i)
     {
