@@ -51,14 +51,14 @@
 #include <osgViewer/Viewer>
 #include <osg/ShapeDrawable>
 
-#include "URG2OSG/urgcppwrapper.h"
-#include "URG2OSG/circle.h"
+#include "urgcppwrapper.h"
+#include "circle.h"
 
 #include <pcl/io/pcd_io.h>
 
-#include "URG2OSG/dxl.h"
+#include "dxl.h"
 #include <osg/Point>
-#include "URG2OSG/scanner3d.h"
+#include "scanner3d.h"
 #include <boost/timer/timer.hpp>
 
 using namespace std;

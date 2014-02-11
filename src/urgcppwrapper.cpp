@@ -42,7 +42,7 @@
 * POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "URG2OSG/urgcppwrapper.h"
+#include "urgcppwrapper.h"
 
 URGCPPWrapper::URGCPPWrapper(const std::string &ip, const int ip_port)
     : distance(0), intensity(0),

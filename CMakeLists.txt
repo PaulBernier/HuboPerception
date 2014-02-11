@@ -1,8 +1,8 @@
-project(URG2OSG)
+project(HuboPerception)
 cmake_minimum_required(VERSION 2.8)
 
-file(GLOB_RECURSE SRC_LIST src/* URG2OSG/*)
-include_directories(.)
+file(GLOB_RECURSE SRC_LIST src/* HuboPerception/*)
+include_directories(HuboPerception)
 
 list(APPEND CMAKE_CXX_FLAGS "-std=c++0x -Wall -Wextra")
 

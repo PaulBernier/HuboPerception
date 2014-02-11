@@ -42,7 +42,7 @@
 * POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "URG2OSG/circle.h"
+#include "circle.h"
 
 Circle::Circle(double radius, unsigned long number_of_points) :
     radius(radius), number_of_points(number_of_points),

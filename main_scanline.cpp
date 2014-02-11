@@ -51,9 +51,9 @@
 #include <osgViewer/Viewer>
 #include <osg/ShapeDrawable>
 
-#include "URG2OSG/urgcppwrapper.h"
-#include "URG2OSG/laserscanlinenode.h"
-#include "URG2OSG/circle.h"
+#include "urgcppwrapper.h"
+#include "laserscanlinenode.h"
+#include "circle.h"
 
 using namespace std;
 

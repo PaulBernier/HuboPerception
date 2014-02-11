@@ -42,7 +42,7 @@
 * POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "URG2OSG/laserscanlinenode.h"
+#include "laserscanlinenode.h"
 
 LaserScanLineNode::LaserScanLineNode(URGCPPWrapper &urg) : laser_scan_line(new LaserScanLine(urg))
 {

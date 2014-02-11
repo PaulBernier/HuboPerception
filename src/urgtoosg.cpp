@@ -42,7 +42,7 @@
 * POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "URG2OSG/urgtoosg.h"
+#include "urgtoosg.h"
 
 void UrgToOsg::getOsg2DPoints(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array> vertices)
 {

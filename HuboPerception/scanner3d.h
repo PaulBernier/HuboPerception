@@ -1,11 +1,11 @@
 #ifndef SCANNER3D_H
 #define SCANNER3D_H
 
-#include "URG2OSG/dxl.h"
-#include "URG2OSG/urgcppwrapper.h"
+#include "dxl.h"
+#include "urgcppwrapper.h"
 #include <osg/Geode>
 #include <vector>
-#include "URG2OSG/scanresultstruct.h"
+#include "scanresultstruct.h"
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 

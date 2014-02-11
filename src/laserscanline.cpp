@@ -42,8 +42,8 @@
 * POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "URG2OSG/laserscanline.h"
-#include "URG2OSG/urgtoosg.h"
+#include "laserscanline.h"
+#include "urgtoosg.h"
 #include <osg/Point>
 
 LaserScanLine::LaserScanLine(URGCPPWrapper &urg)

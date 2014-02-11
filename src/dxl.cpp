@@ -1,4 +1,4 @@
-#include "URG2OSG/dxl.h"
+#include "dxl.h"
 
 Dxl::Dxl(unsigned int device_index, unsigned int baudrate)
     : device_index(device_index), baudrate(baudrate)

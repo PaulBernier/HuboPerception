@@ -42,7 +42,7 @@
 * POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "URG2OSG/urgtopcl.h"
+#include "urgtopcl.h"
 
 
 void UrgToPcl::getPCLCloud(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZRGB>& cloud, const RawScan3dResult &raw_scan3d_result)

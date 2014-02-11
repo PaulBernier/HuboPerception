@@ -42,29 +42,24 @@
 * POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef URGTOOSG_H
-#define URGTOOSG_H
+#ifndef URGTOPCL_H
+#define URGTOPCL_H
 
-#include <osg/Geometry>
-#include <osg/Vec3>
-#include "URG2OSG/urgcppwrapper.h"
-#include "URG2OSG/scanresultstruct.h"
+#include <pcl/point_types.h>
+#include "urgcppwrapper.h"
+#include "scanresultstruct.h"
+#include <pcl/point_types.h>
+#include <pcl/point_cloud.h>
 
-class UrgToOsg
+class UrgToPcl
 {
 public:
     static const unsigned short EPSILON = 3;
 
-    //2D
-    static void getOsg2DPoints(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array> vertices);
-    static osg::Vec3 polarToCartesian(const long distance, const double angle_rad);
-
-    //3D
-    static void getOsg3DPointsts(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array> vertices, const RawScan3dResult &raw_scan3d_result);
-    static osg::Vec3 sphericalToCartesian(const long distance, const double theta, const double phi);
+    static void getPCLCloud(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZRGB>& cloud, const RawScan3dResult &raw_scan3d_result);
 
 private:
-    UrgToOsg();
+    UrgToPcl();
 };
 
-#endif // URGTOOSG_H
+#endif // URGTOPCL_H

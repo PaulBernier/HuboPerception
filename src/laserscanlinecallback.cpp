@@ -42,8 +42,8 @@
 * POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "URG2OSG/laserscanlinecallback.h"
-#include "URG2OSG/laserscanlinenode.h"
+#include "laserscanlinecallback.h"
+#include "laserscanlinenode.h"
 
 void LaserScanLineCallback::operator()(osg::Node* node, osg::NodeVisitor* nv)
 {

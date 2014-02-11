@@ -1,9 +1,9 @@
-#include "URG2OSG/scanner3d.h"
-#include "URG2OSG/urgtoosg.h"
+#include "scanner3d.h"
+#include "urgtoosg.h"
 #include <osg/Point>
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_types.h>
-#include "URG2OSG/urgtopcl.h"
+#include "urgtopcl.h"
 
 Scanner3d::Scanner3d(URGCPPWrapper* urg, Dxl* dxl,
                      int start_angle_degree, int end_angle_degree, double scan_step_degree)
