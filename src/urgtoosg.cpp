@@ -79,7 +79,7 @@ void UrgToOsg::getOsg3DPointsts(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array>
         // Remove extreme points
         if(raw_scan3d_result.distances[i] < max_distance)
         {
-            const double phi = raw_scan3d_result.angles[nb_joints * (i / raw_scan3d_result.number_of_points_per_scan) - 1];
+            const double phi = raw_scan3d_result.jointsValue[nb_joints * (i / raw_scan3d_result.number_of_points_per_scan) - 1];
             const double theta = urg->index2rad(i % raw_scan3d_result.number_of_points_per_scan) - 3.1415926 / 2;
 
             vertices->push_back(sphericalToCartesian(raw_scan3d_result.distances[i], theta, phi));

@@ -28,9 +28,9 @@ void Scanner3d::scan()
 
         dxl->moveToDegree(start_angle_degree - i * scan_step_degree, 3);
 
-        raw_scan3d_result.angles[3 * i] = dxl->getCurrentAngleRadian(1);
-        raw_scan3d_result.angles[3 * i + 1] = dxl->getCurrentAngleRadian(2);
-        raw_scan3d_result.angles[3 * i + 2] = dxl->getCurrentAngleRadian(3);
+        raw_scan3d_result.jointsValue[3 * i] = dxl->getCurrentAngleRadian(1);
+        raw_scan3d_result.jointsValue[3 * i + 1] = dxl->getCurrentAngleRadian(2);
+        raw_scan3d_result.jointsValue[3 * i + 2] = dxl->getCurrentAngleRadian(3);
 
         //Launch scan
         urg->grabScan();
@@ -58,6 +58,8 @@ void Scanner3d::getScan3dGeode(osg::ref_ptr<osg::Geode> geode)
     geometry->setColorBinding(osg::Geometry::BIND_OVERALL);
     (*color)[0] = osg::Vec4(1.0f, 0.0f, 0.0f, 1.0f);
     geometry->setColorArray(color);
+
+    geometry->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 
     geode->addDrawable(geometry);
 }
@@ -95,7 +97,7 @@ void Scanner3d::updateScanParam()
     raw_scan3d_result.number_of_points = raw_scan3d_result.number_of_scans * raw_scan3d_result.number_of_points_per_scan;
 
     raw_scan3d_result.distances.reserve(raw_scan3d_result.number_of_points);
-    raw_scan3d_result.angles.resize(raw_scan3d_result.number_of_scans * raw_scan3d_result.number_of_joints);
+    raw_scan3d_result.jointsValue.resize(raw_scan3d_result.number_of_scans * raw_scan3d_result.number_of_joints);
 }
 
 void Scanner3d::moveHeadToInitialPosition()

@@ -5,7 +5,7 @@
 
 typedef struct{
     std::vector<long> distances;
-    std::vector<double> angles;
+    std::vector<double> jointsValue;
 
     unsigned int number_of_joints;
     unsigned int number_of_scans;

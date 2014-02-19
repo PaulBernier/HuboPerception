@@ -82,7 +82,7 @@ int main()
 
     // Set viewer
     viewer.setSceneData(root);
-    viewer.setUpViewInWindow(50, 50, 800, 600);
+    viewer.setUpViewInWindow(50, 50, 1024, 768);
     viewer.run();
 
     urg_thread.join();
