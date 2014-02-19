@@ -64,7 +64,7 @@ void UrgToPcl::getPCLCloud(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZRGB>
         // Remove extreme points
         if(distance < max_distance)
         {
-            const double phi = raw_scan3d_result.jointsValue[nb_joints * (i / raw_scan3d_result.number_of_points_per_scan) - 1];
+            const double phi = raw_scan3d_result.jointsValue[nb_joints * (i / raw_scan3d_result.number_of_points_per_scan + 1) - 1];
             const double theta = urg->index2rad(i % raw_scan3d_result.number_of_points_per_scan) - 3.1415926 / 2;
 
             cloud.points[i].x = distance * cos(phi) * sin(theta);
