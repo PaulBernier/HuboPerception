@@ -70,7 +70,7 @@ void Scanner3d::savePointCloudToPCD(const std::string& filename)
     UrgToPcl::getPCLCloud(urg, cloud, raw_scan3d_result);
 
     // Save file
-    pcl::io::savePCDFileASCII(filename, cloud);
+    pcl::io::savePCDFileBinaryCompressed(filename, cloud);
 }
 
 void Scanner3d::getPointCloud(pcl::PointCloud<pcl::PointXYZRGB> &cloud)

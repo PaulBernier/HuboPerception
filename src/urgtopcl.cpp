@@ -44,12 +44,12 @@
 
 #include "urgtopcl.h"
 
-
 void UrgToPcl::getPCLCloud(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZRGB>& cloud, const RawScan3dResult &raw_scan3d_result)
 {
     const unsigned int nb_pts = raw_scan3d_result.number_of_points;
     const unsigned int nb_joints = raw_scan3d_result.number_of_joints;
     const long max_distance = urg->getMaxDistance() - EPSILON;
+    const long min_distance = urg->getMinDistance() + EPSILON;
 
     // Header cloud
     cloud.width = raw_scan3d_result.number_of_points_per_scan;
@@ -62,7 +62,7 @@ void UrgToPcl::getPCLCloud(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZRGB>
         const double distance = raw_scan3d_result.distances[i];
 
         // Remove extreme points
-        if(distance < max_distance)
+        if(distance < max_distance && distance > min_distance)
         {
             const double phi = raw_scan3d_result.jointsValue[nb_joints * (i / raw_scan3d_result.number_of_points_per_scan + 1) - 1];
             const double theta = urg->index2rad(i % raw_scan3d_result.number_of_points_per_scan) - 3.1415926 / 2;

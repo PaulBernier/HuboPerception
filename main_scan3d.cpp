@@ -68,7 +68,7 @@ void URG_subroutine(URGCPPWrapper* urg, osg::ref_ptr<osg::Group>  root);
 
 int main()
 {
-    URGCPPWrapper urg("192.168.0.10", 10940);
+    URGCPPWrapper urg("192.168.1.47", 10940);
 
     cout << urg.getAllInfo() << endl;
 
@@ -132,8 +132,8 @@ void URG_subroutine(URGCPPWrapper* urg, osg::ref_ptr<osg::Group> root)
 {
 
     const int start_angle_degree = 220;
-    const int end_angle_degree = 110;
-    const double scan_step_degree = 0.5;
+    const int end_angle_degree = 120;
+    const double scan_step_degree = 0.1;
 
     Dxl dxl;
 
@@ -143,7 +143,7 @@ void URG_subroutine(URGCPPWrapper* urg, osg::ref_ptr<osg::Group> root)
         scanner.scan();
 
         // Save point cloud
-        scanner.savePointCloudToPCD("hubo.pcd");
+        scanner.savePointCloudToPCD("scene.pcd");
 
         // Display point cloud
         osg::ref_ptr<osg::Geode> geode = new osg::Geode;
