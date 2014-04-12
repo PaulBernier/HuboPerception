@@ -18,7 +18,7 @@ public:
     void getScan3dGeode(osg::ref_ptr<osg::Geode> geode);
 
     void getPointCloud(pcl::PointCloud<pcl::PointXYZRGB> &cloud);
-    void savePointCloudToPCD(const std::string& filename);
+    void savePointCloudToPCD(const std::string& filename, bool organized = false, bool binary = true);
 
     void setScanParameters(int start_angle_degree, int end_angle_degree, double scan_step_degree);
 

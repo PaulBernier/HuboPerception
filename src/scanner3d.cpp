@@ -64,13 +64,20 @@ void Scanner3d::getScan3dGeode(osg::ref_ptr<osg::Geode> geode)
     geode->addDrawable(geometry);
 }
 
-void Scanner3d::savePointCloudToPCD(const std::string& filename)
+void Scanner3d::savePointCloudToPCD(const std::string& filename, bool organized, bool binary)
 {
     pcl::PointCloud<pcl::PointXYZRGB> cloud;
-    UrgToPcl::getPCLCloud(urg, cloud, raw_scan3d_result);
+
+    if(organized)
+        UrgToPcl::getPCLCloud(urg, cloud, raw_scan3d_result);
+    else
+        UrgToPcl::getPCLCloudUnorganized(urg, cloud, raw_scan3d_result);
 
     // Save file
-    pcl::io::savePCDFileBinaryCompressed(filename, cloud);
+    if(binary)
+        pcl::io::savePCDFileBinaryCompressed(filename, cloud);
+    else
+        pcl::io::savePCDFileASCII(filename, cloud);
 }
 
 void Scanner3d::getPointCloud(pcl::PointCloud<pcl::PointXYZRGB> &cloud)

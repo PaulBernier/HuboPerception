@@ -80,3 +80,38 @@ void UrgToPcl::getPCLCloud(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZRGB>
         }
     }
 }
+
+void UrgToPcl::getPCLCloudUnorganized(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZRGB>& cloud, const RawScan3dResult &raw_scan3d_result)
+{
+    const unsigned int nb_pts = raw_scan3d_result.number_of_points;
+    const unsigned int nb_joints = raw_scan3d_result.number_of_joints;
+    const long max_distance = urg->getMaxDistance() - EPSILON;
+    const long min_distance = urg->getMinDistance() + EPSILON;
+
+    // Header cloud
+    cloud.height = 1;
+    cloud.is_dense = false;
+    cloud.points.resize(raw_scan3d_result.number_of_points_per_scan * raw_scan3d_result.number_of_scans);
+
+    unsigned long int count = 0;
+    for(unsigned int i=0 ; i< nb_pts ; ++i)
+    {
+        const double distance = raw_scan3d_result.distances[i];
+
+        // Remove extreme points
+        if(distance < max_distance && distance > min_distance)
+        {
+            count++;
+            const double phi = raw_scan3d_result.jointsValue[nb_joints * (i / raw_scan3d_result.number_of_points_per_scan + 1) - 1];
+            const double theta = urg->index2rad(i % raw_scan3d_result.number_of_points_per_scan) - 3.1415926 / 2;
+
+            cloud.points[i].x = distance * cos(phi) * sin(theta);
+            cloud.points[i].y = distance * cos(theta);
+            cloud.points[i].z = distance * sin(phi) * sin(theta);
+        }
+    }
+
+    // Resize to actual size
+    cloud.width = count;
+    cloud.points.resize(count);
+}

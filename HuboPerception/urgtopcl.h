@@ -57,6 +57,7 @@ public:
     static const unsigned short EPSILON = 3;
 
     static void getPCLCloud(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZRGB>& cloud, const RawScan3dResult &raw_scan3d_result);
+    static void getPCLCloudUnorganized(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZRGB>& cloud, const RawScan3dResult &raw_scan3d_result);
 
 private:
     UrgToPcl();
