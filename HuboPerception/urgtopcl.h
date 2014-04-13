@@ -56,11 +56,13 @@ class UrgToPcl
 public:
     static const unsigned short EPSILON = 3;
 
-    static void getPCLCloud(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZRGB>& cloud, const RawScan3dResult &raw_scan3d_result);
-    static void getPCLCloudUnorganized(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZRGB>& cloud, const RawScan3dResult &raw_scan3d_result);
+    static void getPCLCloud(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZ>& cloud, const RawScan3dResult &raw_scan3d_result);
+    static void getPCLCloudUnorganized(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZ>& cloud, const RawScan3dResult &raw_scan3d_result);
+    static pcl::PointXYZ sphericalToCartesian(const long distance, const double theta, const double phi);
 
 private:
     UrgToPcl();
+
 };
 
 #endif // URGTOPCL_H

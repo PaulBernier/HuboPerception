@@ -44,7 +44,7 @@
 
 #include "urgtopcl.h"
 
-void UrgToPcl::getPCLCloud(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZRGB>& cloud, const RawScan3dResult &raw_scan3d_result)
+void UrgToPcl::getPCLCloud(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZ>& cloud, const RawScan3dResult &raw_scan3d_result)
 {
     const unsigned int nb_pts = raw_scan3d_result.number_of_points;
     const unsigned int nb_joints = raw_scan3d_result.number_of_joints;
@@ -60,17 +60,13 @@ void UrgToPcl::getPCLCloud(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZRGB>
     for(unsigned int i=0 ; i< nb_pts ; ++i)
     {
         const double distance = raw_scan3d_result.distances[i];
-
         // Remove extreme points
         if(distance < max_distance && distance > min_distance)
         {
             const double phi = raw_scan3d_result.jointsValue[nb_joints * (i / raw_scan3d_result.number_of_points_per_scan + 1) - 1];
             const double theta = urg->index2rad(i % raw_scan3d_result.number_of_points_per_scan) - 3.1415926 / 2;
 
-            cloud.points[i].x = distance * cos(phi) * sin(theta);
-            cloud.points[i].y = distance * cos(theta);
-            cloud.points[i].z = distance * sin(phi) * sin(theta);
-
+            cloud.points[i] = sphericalToCartesian(distance, theta, phi);
         }
         else
         {
@@ -81,7 +77,7 @@ void UrgToPcl::getPCLCloud(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZRGB>
     }
 }
 
-void UrgToPcl::getPCLCloudUnorganized(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZRGB>& cloud, const RawScan3dResult &raw_scan3d_result)
+void UrgToPcl::getPCLCloudUnorganized(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZ>& cloud, const RawScan3dResult &raw_scan3d_result)
 {
     const unsigned int nb_pts = raw_scan3d_result.number_of_points;
     const unsigned int nb_joints = raw_scan3d_result.number_of_joints;
@@ -105,13 +101,18 @@ void UrgToPcl::getPCLCloudUnorganized(URGCPPWrapper* urg, pcl::PointCloud<pcl::P
             const double phi = raw_scan3d_result.jointsValue[nb_joints * (i / raw_scan3d_result.number_of_points_per_scan + 1) - 1];
             const double theta = urg->index2rad(i % raw_scan3d_result.number_of_points_per_scan) - 3.1415926 / 2;
 
-            cloud.points[i].x = distance * cos(phi) * sin(theta);
-            cloud.points[i].y = distance * cos(theta);
-            cloud.points[i].z = distance * sin(phi) * sin(theta);
+            cloud.points[i] = sphericalToCartesian(distance, theta, phi);
         }
     }
 
     // Resize to actual size
     cloud.width = count;
     cloud.points.resize(count);
+}
+
+pcl::PointXYZ UrgToPcl::sphericalToCartesian(const long distance, const double theta, const double phi)
+{
+    return pcl::PointXYZ(distance * cos(phi) * sin(theta),
+                         distance * cos(theta),
+                         distance * sin(phi) * sin(theta));
 }
